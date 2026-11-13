@@ -1,34 +1,26 @@
 package com.padumi.core.data
 
-import com.padumi.core.model.Greeting
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
 internal interface GreetingLocalDataSource {
-    fun observeGreeting(): Flow<Greeting>
+    fun observeGreeting(): Flow<String?>
 
-    suspend fun refreshGreeting()
+    suspend fun saveGreeting(message: String)
 }
 
 @Singleton
-internal class InMemoryGreetingLocalDataSource
+internal class RoomGreetingLocalDataSource
     @Inject
-    constructor() : GreetingLocalDataSource {
-        private val messages =
-            listOf(
-                "Your modular Android foundation is ready.",
-                "Architecture, tests, and automation are working together.",
-                "Build the next product feature with confidence.",
-            )
-        private var messageIndex = 0
-        private val greeting = MutableStateFlow(Greeting(messages[messageIndex]))
+    constructor(
+        private val database: PadumiDatabase,
+    ) : GreetingLocalDataSource {
+        private val dao get() = database.greetingDao()
 
-        override fun observeGreeting(): Flow<Greeting> = greeting
+        override fun observeGreeting(): Flow<String?> = dao.observeMessage()
 
-        override suspend fun refreshGreeting() {
-            messageIndex = (messageIndex + 1) % messages.size
-            greeting.value = Greeting(messages[messageIndex])
+        override suspend fun saveGreeting(message: String) {
+            dao.upsert(GreetingEntity(message = message))
         }
     }

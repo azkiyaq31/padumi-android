@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
+import java.io.IOException
 
 class DefaultGreetingRepositoryTest {
     private val dataSource = FakeGreetingLocalDataSource()
@@ -19,24 +20,48 @@ class DefaultGreetingRepositoryTest {
         }
 
     @Test
-    fun `refresh greeting updates observed value`() =
+    fun `refresh greeting persists value to local data source`() =
         runTest {
             repository.refreshGreeting()
 
-            assertThat(repository.observeGreeting().first().message).isEqualTo("Refreshed")
-            assertThat(dataSource.refreshCount).isEqualTo(1)
+            assertThat(repository.observeGreeting().first().message).isEqualTo("Your Padumi data is stored locally.")
+            assertThat(dataSource.savedMessages).containsExactly("Your Padumi data is stored locally.")
+        }
+
+    @Test
+    fun `write failure propagates to caller`() =
+        runTest {
+            val failure = IOException("Local write failed")
+            dataSource.writeFailure = failure
+
+            val thrown = runCatching { repository.refreshGreeting() }.exceptionOrNull()
+
+            assertThat(thrown).isSameInstanceAs(failure)
+        }
+
+    @Test
+    fun `empty stored value is observable`() =
+        runTest {
+            dataSource.setMessage("")
+
+            assertThat(repository.observeGreeting().first().message).isEmpty()
         }
 }
 
 private class FakeGreetingLocalDataSource : GreetingLocalDataSource {
-    private val greeting = MutableStateFlow(Greeting("Initial"))
-    var refreshCount = 0
-        private set
+    private val message = MutableStateFlow("Initial")
+    val savedMessages = mutableListOf<String>()
+    var writeFailure: Throwable? = null
 
-    override fun observeGreeting(): Flow<Greeting> = greeting
+    override fun observeGreeting(): Flow<String> = message
 
-    override suspend fun refreshGreeting() {
-        refreshCount += 1
-        greeting.value = Greeting("Refreshed")
+    override suspend fun saveGreeting(message: String) {
+        writeFailure?.let { throw it }
+        savedMessages += message
+        this.message.value = message
+    }
+
+    fun setMessage(value: String) {
+        message.value = value
     }
 }
