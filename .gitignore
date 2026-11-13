@@ -3,8 +3,10 @@
 **/build/
 build/
 
-# Local Android configuration and credentials
+# Local Android configuration, toolchains, and credentials
 local.properties
+.tools/
+gradle/gradle-daemon-jvm.properties
 *.jks
 *.keystore
 *.p12
