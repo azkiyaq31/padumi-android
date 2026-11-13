@@ -1,7 +1,7 @@
-package com.example.modularapp
+package com.padumi
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
-class StarterApplication : Application()
+class PadumiApplication : Application()

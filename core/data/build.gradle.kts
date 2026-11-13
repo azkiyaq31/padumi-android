@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.modularapp.core.data"
+    namespace = "com.padumi.core.data"
 }
 
 dependencies {

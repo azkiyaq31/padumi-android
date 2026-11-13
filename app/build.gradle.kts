@@ -15,10 +15,10 @@ val hasReleaseSigning =
     ).all { !it.isNullOrBlank() }
 
 android {
-    namespace = "com.example.modularapp"
+    namespace = "com.padumi"
 
     defaultConfig {
-        applicationId = "com.example.modularapp"
+        applicationId = "com.padumi"
         versionCode = 1
         versionName = "0.1.0"
     }

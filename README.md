@@ -1,27 +1,11 @@
-# Modular Android Starter
+# WearWise
 
 A production-oriented, reusable Android project template. It uses modular MVVM, unidirectional state
 flow, convention plugins, dependency injection, layered tests, and cross-platform CI.
 
 ## Create a project from the template
 
-Use GitHub's **Use this template** button or copy the repository, then run the initializer exactly once.
-
-Ubuntu or macOS:
-
-```bash
-./scripts/init-project.sh "My Application" com.example.myapplication
-```
-
-Windows PowerShell:
-
-```powershell
-.\scripts\init-project.ps1 -ProjectName "My Application" -PackageName "com.example.myapplication"
-```
-
-The initializer updates the project/display names, namespace, application ID, Kotlin packages,
-source paths, application class, theme class, and artifact names. Commit those generated changes as
-the first product-specific commit.
+This repository was generated from [RhymezxCode/android-project-template](https://github.com/RhymezxCode/android-project-template) and initialized as WearWise (`com.padumi`). The application ID and namespace are `com.padumi`; debug builds add `.debug` to the application ID.
 
 ## Project map
 
@@ -54,8 +38,10 @@ The demonstration screen follows this complete path:
 ## Requirements
 
 - Android Studio with Android SDK 36
-- JDK 17 or newer; CI uses JDK 17
+- JDK 17 (project convention plugins use a Java 17 toolchain)
 - `ANDROID_HOME` or `ANDROID_SDK_ROOT` configured
+
+On this development machine, Android Studio's JDK 21 is configured as the Gradle runtime; JDK 17 is provisioned locally under `.tools` for Gradle's compile toolchain. `.tools` and `local.properties` are machine-local and not committed.
 
 ## Start locally
 

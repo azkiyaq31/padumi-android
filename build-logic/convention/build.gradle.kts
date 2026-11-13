@@ -2,7 +2,7 @@ plugins {
     `kotlin-dsl`
 }
 
-group = "com.example.modularapp.buildlogic"
+group = "com.padumi.buildlogic"
 
 java {
     sourceCompatibility = JavaVersion.VERSION_17

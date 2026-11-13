@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.modularapp.feature.home"
+    namespace = "com.padumi.feature.home"
 }
 
 dependencies {

@@ -19,7 +19,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "ModularAndroidTemplate"
+rootProject.name = "WearWise"
 
 include(":app")
 include(":core:model")
