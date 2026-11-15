@@ -5,7 +5,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.padumi.core.designsystem.WearWiseTheme
+import com.padumi.core.designsystem.PadumiTheme
 import org.junit.Assert.assertTrue
 import org.junit.Rule
 import org.junit.Test
@@ -18,7 +18,7 @@ class HomeScreenTest {
     fun greeting_and_refresh_action_are_accessible() {
         var refreshClicked = false
         composeRule.setContent {
-            WearWiseTheme {
+            PadumiTheme {
                 HomeScreen(
                     state = HomeUiState(isLoading = false, greeting = "Foundation ready"),
                     snackbarHostState = SnackbarHostState(),

@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.padumi.core.designsystem.WearWiseTheme
+import com.padumi.core.designsystem.PadumiTheme
 import com.padumi.feature.home.HomeRoute
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun WearWiseApp() {
-    WearWiseTheme {
+    PadumiTheme {
         val navController = rememberNavController()
         NavHost(navController = navController, startDestination = "home") {
             composable("home") { HomeRoute() }

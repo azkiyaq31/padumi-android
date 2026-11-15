@@ -27,7 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.padumi.core.designsystem.WearWiseTheme
+import com.padumi.core.designsystem.PadumiTheme
 
 @Composable
 fun HomeRoute(viewModel: HomeViewModel = hiltViewModel()) {
@@ -115,7 +115,7 @@ private fun HomeContent(
 @Suppress("UnusedPrivateMember")
 @Composable
 private fun HomeScreenPreview() {
-    WearWiseTheme {
+    PadumiTheme {
         HomeScreen(
             state = HomeUiState(isLoading = false, greeting = "Foundation ready"),
             snackbarHostState = remember { SnackbarHostState() },
