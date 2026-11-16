@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   verify:
-    name: Verify template baseline
+    name: Verify Padumi
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -36,35 +36,3 @@ jobs:
             **/build/reports/
             build/reports/kover/
           if-no-files-found: ignore
-
-  generated-project:
-    name: Generate on ${{ matrix.name }}
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - name: Ubuntu
-            os: ubuntu-latest
-            initialize: ./scripts/init-project.sh "CI Demo" com.example.cidemo
-            gradle: ./gradlew
-          - name: macOS
-            os: macos-14
-            initialize: ./scripts/init-project.sh "CI Demo" com.example.cidemo
-            gradle: ./gradlew
-          - name: Windows
-            os: windows-latest
-            initialize: .\scripts\init-project.ps1 -ProjectName "CI Demo" -PackageName com.example.cidemo
-            gradle: .\gradlew.bat
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-java@v5
-        with:
-          distribution: zulu
-          java-version: 17
-      - uses: gradle/actions/setup-gradle@v5
-      - name: Initialize a product project
-        run: ${{ matrix.initialize }}
-      - name: Build and test generated project
-        run: ${{ matrix.gradle }} projects test assembleDebug

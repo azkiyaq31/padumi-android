@@ -4,14 +4,15 @@
 
 | Workflow | Trigger | Responsibility |
 |---|---|---|
-| `CI` | Pull requests, `main`, manual | Tests, lint, Detekt, formatting, coverage, debug assembly, and host compatibility |
+| `CI` | Pull requests, pushes to `main`, manual | Runs `scripts/verify.sh`: unit and Robolectric UI tests, Android lint, Detekt, ktlint, Kover coverage, and debug assembly |
 | `Instrumentation Tests` | Weekly and manual | Compose/instrumentation tests on an Ubuntu Android emulator |
 | `Release Bundle` | `v*` tags and manual | Creates a shrunk, signed Android App Bundle |
-| Dependabot | Monthly | Gradle and GitHub Actions update pull requests |
 
-The generated-project matrix runs the Bash initializer on `ubuntu-latest` and `macos-14`, runs the
-PowerShell initializer on `windows-latest`, then builds and tests each renamed project. Android
-emulator tests run on Ubuntu because Linux virtualization is the most predictable hosted setup.
+`CI` runs one Ubuntu job, `Verify Padumi`, which calls the same `scripts/verify.sh` used locally,
+so a green local run should mean a green CI run. Reports are uploaded as the `verification-reports`
+artifact, including on failure. The four-tab navigation UI tests run on the JVM with Robolectric, so
+they are part of this job and do not need an emulator. Instrumented tests (`src/androidTest`) run
+only in the weekly `Instrumentation Tests` workflow, on an Ubuntu Android emulator.
 
 ## Release secrets
 
@@ -47,7 +48,7 @@ properties. Keystores and credential files are ignored by Git.
 
 ## Branch protection
 
-Protect `main`, require pull requests, require the Ubuntu verification and three host checks, dismiss
+Protect `main`, require pull requests, require the `Verify Padumi` check, dismiss
 stale approvals, and block force pushes. Keep release environments approval-gated when Play Store
 publishing is introduced.
 
