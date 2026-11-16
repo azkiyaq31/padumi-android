@@ -51,6 +51,14 @@ android {
     }
 }
 
+// Compose UI tests need the ui-test-manifest activity, which is only merged into debug.
+// Release builds must not ship it, so the app's JVM UI tests run on the debug variant only.
+androidComponents {
+    beforeVariants(selector().withBuildType("release")) { variant ->
+        variant.hostTests[com.android.build.api.variant.HostTestBuilder.UNIT_TEST_TYPE]?.enable = false
+    }
+}
+
 dependencies {
     implementation(project(":core:data"))
     implementation(project(":core:designsystem"))
@@ -59,4 +67,7 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.navigation.compose)
+
+    testImplementation(platform(libs.compose.bom))
+    testImplementation(libs.compose.ui.test.junit4)
 }
