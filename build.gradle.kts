@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.kotlinter) apply false
     alias(libs.plugins.kover)
     alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.room) apply false
 }
 
 subprojects {

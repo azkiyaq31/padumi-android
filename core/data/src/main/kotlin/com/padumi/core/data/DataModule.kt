@@ -3,12 +3,14 @@ package com.padumi.core.data
 import android.content.Context
 import androidx.room.Room
 import com.padumi.core.domain.GreetingRepository
+import com.padumi.core.domain.WardrobeRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import java.time.Clock
 import javax.inject.Singleton
 
 @Module
@@ -22,6 +24,10 @@ internal abstract class DataModule {
     @Singleton
     abstract fun bindGreetingRepository(implementation: DefaultGreetingRepository): GreetingRepository
 
+    @Binds
+    @Singleton
+    abstract fun bindWardrobeRepository(implementation: RoomWardrobeRepository): WardrobeRepository
+
     companion object {
         @Provides
         @Singleton
@@ -34,5 +40,12 @@ internal abstract class DataModule {
 
         @Provides
         fun provideGreetingDao(database: PadumiDatabase): GreetingDao = database.greetingDao()
+
+        @Provides
+        fun provideWardrobeItemDao(database: PadumiDatabase): WardrobeItemDao = database.wardrobeItemDao()
+
+        @Provides
+        @Singleton
+        fun provideClock(): Clock = Clock.systemUTC()
     }
 }
